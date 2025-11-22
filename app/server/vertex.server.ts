@@ -6,7 +6,7 @@
 // You would typically install: npm install @google-cloud/vertexai
 
 import { GoogleGenAI } from "@google/genai";
-import { FLOOR_PLAN_PROMPT } from "./prompts.server";
+import { FLOOR_PLAN_PROMPT } from "./prompts/gemini";
 import fs from "fs";
 import path from "path";
 import os from "os";

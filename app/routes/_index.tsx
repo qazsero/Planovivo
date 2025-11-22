@@ -67,7 +67,7 @@ export default function Index() {
                     <div className="max-w-5xl mx-auto bg-gray-900 rounded-2xl overflow-hidden shadow-2xl">
                         <div className="grid md:grid-cols-2">
                             <div className="p-8 md:p-12 flex flex-col justify-center border-b md:border-b-0 md:border-r border-gray-800">
-                                <div className="aspect-video bg-gray-800 rounded-lg overflow-hidden mb-4">
+                                <div className="aspect-3/2 bg-gray-800 rounded-lg overflow-hidden mb-4">
                                     <img
                                         src="/images/floorplan1.png"
                                         alt="Plano 2D original"
@@ -77,7 +77,7 @@ export default function Index() {
                                 <p className="text-center text-gray-400 text-sm">Plano 2D Original</p>
                             </div>
                             <div className="p-8 md:p-12 flex flex-col justify-center bg-gray-800/50">
-                                <div className="aspect-video bg-gray-700 rounded-lg overflow-hidden mb-4">
+                                <div className="aspect-3/2 bg-gray-700 rounded-lg overflow-hidden mb-4">
                                     <img
                                         src="/images/floorplan1_render.png"
                                         alt="Render 3D generado"

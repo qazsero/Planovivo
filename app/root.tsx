@@ -23,7 +23,41 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
+import { useEffect } from "react";
+import { initPostHog } from "./utils/posthog.client";
+import { useLoaderData } from "react-router";
+import { getUserId } from "~/server/session.server";
+import { db } from "~/db/index.server";
+import { users } from "~/db/schema";
+import { eq } from "drizzle-orm";
+import posthog from "posthog-js";
+
+export async function loader({ request }: Route.LoaderArgs) {
+  const userId = await getUserId(request);
+  if (!userId) return { user: null };
+
+  const [user] = await db
+    .select({ id: users.id, email: users.email })
+    .from(users)
+    .where(eq(users.id, userId))
+    .limit(1);
+
+  return { user };
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
+  const data = useLoaderData<typeof loader>();
+
+  useEffect(() => {
+    initPostHog();
+
+    if (data?.user) {
+      posthog.identify(data.user.id, {
+        email: data.user.email
+      });
+    }
+  }, [data?.user]);
+
   return (
     <html lang="en">
       <head>

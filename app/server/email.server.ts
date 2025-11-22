@@ -63,3 +63,43 @@ export async function sendMagicLink(email: string, magicLink: string) {
     `,
     });
 }
+
+export async function addToMarketingList(email: string, listId: number = 4) {
+    const apiKey = process.env.BREVO_API_KEY;
+
+    if (!apiKey) {
+        console.warn("BREVO_API_KEY is missing. Contact not added to list.");
+        return false;
+    }
+
+    try {
+        const response = await fetch("https://api.brevo.com/v3/contacts", {
+            method: "POST",
+            headers: {
+                "accept": "application/json",
+                "api-key": apiKey,
+                "content-type": "application/json",
+            },
+            body: JSON.stringify({
+                email,
+                listIds: [listId],
+                updateEnabled: true,
+            }),
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            if (error.code === "duplicate_parameter") {
+                console.log("Contact already exists in Brevo.");
+                return true;
+            }
+            console.error("Brevo API Error (Add Contact):", error);
+            return false;
+        }
+
+        return true;
+    } catch (error) {
+        console.error("Failed to add contact to Brevo:", error);
+        return false;
+    }
+}

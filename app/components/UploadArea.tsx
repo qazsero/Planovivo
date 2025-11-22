@@ -37,12 +37,12 @@ export function UploadArea({ onFileSelect, isProcessing }: UploadAreaProps) {
 
     const validateAndSelect = (file: File) => {
         if (!file.type.startsWith("image/")) {
-            alert("Please upload an image file (PNG or JPG).");
+            alert("Por favor, sube un archivo de imagen (PNG o JPG).");
             return;
         }
         // 10MB limit
         if (file.size > 10 * 1024 * 1024) {
-            alert("File size must be under 10MB.");
+            alert("El archivo debe ser menor de 10MB.");
             return;
         }
         onFileSelect(file);
@@ -86,10 +86,10 @@ export function UploadArea({ onFileSelect, isProcessing }: UploadAreaProps) {
                 </div>
                 <div>
                     <p className="text-lg font-medium text-gray-900">
-                        {isProcessing ? "Processing..." : "Upload floor plan"}
+                        {isProcessing ? "Procesando..." : "Sube tu plano"}
                     </p>
                     <p className="text-sm text-gray-500 mt-1">
-                        Drag & drop or click to select. PNG or JPG up to 10MB.
+                        Arrastra y suelta o haz clic para seleccionar. PNG o JPG hasta 10MB.
                     </p>
                 </div>
             </div>

@@ -4,8 +4,8 @@ import type { Route } from "./+types/_index";
 
 export const meta: Route.MetaFunction = () => {
     return [
-        { title: "Planovivo - 2D to 3D Visualization" },
-        { name: "description", content: "Convert 2D floor plans to 3D visualizations using AI." },
+        { title: "Planovivo - Renders 3D de Planos al Instante" },
+        { name: "description", content: "Convierte planos 2D en renders 3D profesionales. Para arquitectos, interioristas y profesionales inmobiliarios en España." },
     ];
 };
 
@@ -18,9 +18,9 @@ export default function Index() {
             <section className="py-24 bg-gray-50">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl font-bold text-gray-900 mb-4">How it works</h2>
+                        <h2 className="text-3xl font-bold text-gray-900 mb-4">Tres pasos, resultados inmediatos</h2>
                         <p className="text-gray-600 max-w-xl mx-auto">
-                            We use Google Cloud Vertex AI to interpret your layout and generate a realistic visualization.
+                            No necesitas conocimientos técnicos. Sube tu plano y obtén un render 3D profesional en segundos.
                         </p>
                     </div>
 
@@ -28,18 +28,18 @@ export default function Index() {
                         {[
                             {
                                 step: "01",
-                                title: "Upload floor plan",
-                                desc: "Upload a PNG or JPG of your 2D floor plan. Sketches work too.",
+                                title: "Sube tu plano",
+                                desc: "Planos técnicos, bocetos a mano, o esquemas básicos. Todos funcionan.",
                             },
                             {
                                 step: "02",
-                                title: "AI Processing",
-                                desc: "Our model analyzes the geometry and infers room types and materials.",
+                                title: "Personaliza el estilo",
+                                desc: "Elige entre estilos modernos, clásicos, o minimalistas según tu proyecto.",
                             },
                             {
                                 step: "03",
-                                title: "Download 3D Render",
-                                desc: "Get a high-quality isometric view to use in your presentations.",
+                                title: "Descarga tu render",
+                                desc: "Visualizaciones 3D listas para presentar a tus clientes o portfolio.",
                             },
                         ].map((item) => (
                             <div key={item.step} className="relative p-8 bg-white rounded-2xl shadow-sm border border-gray-100">
@@ -55,30 +55,36 @@ export default function Index() {
             </section>
 
             {/* Example Showcase */}
-            <section className="py-24">
+            <section id="ejemplos" className="py-24">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl font-bold text-gray-900 mb-4">See the results</h2>
+                        <h2 className="text-3xl font-bold text-gray-900 mb-4">De plano a presentación en segundos</h2>
                         <p className="text-gray-600">
-                            From simple line drawings to furnished 3D concepts.
+                            Usa los renders para catálogos inmobiliarios, presentaciones a clientes, o portafolio digital.
                         </p>
                     </div>
 
                     <div className="max-w-5xl mx-auto bg-gray-900 rounded-2xl overflow-hidden shadow-2xl">
                         <div className="grid md:grid-cols-2">
                             <div className="p-8 md:p-12 flex flex-col justify-center border-b md:border-b-0 md:border-r border-gray-800">
-                                <div className="aspect-square bg-gray-800 rounded-lg flex items-center justify-center text-gray-500 mb-4">
-                                    {/* Placeholder for Plan Image */}
-                                    <span className="text-sm">Floor Plan Image</span>
+                                <div className="aspect-video bg-gray-800 rounded-lg overflow-hidden mb-4">
+                                    <img
+                                        src="/images/floorplan1.png"
+                                        alt="Plano 2D original"
+                                        className="w-full h-full object-contain"
+                                    />
                                 </div>
-                                <p className="text-center text-gray-400 text-sm">Original 2D Plan</p>
+                                <p className="text-center text-gray-400 text-sm">Plano 2D Original</p>
                             </div>
                             <div className="p-8 md:p-12 flex flex-col justify-center bg-gray-800/50">
-                                <div className="aspect-square bg-gray-700 rounded-lg flex items-center justify-center text-gray-400 mb-4">
-                                    {/* Placeholder for Render Image */}
-                                    <span className="text-sm">AI Rendered Image</span>
+                                <div className="aspect-video bg-gray-700 rounded-lg overflow-hidden mb-4">
+                                    <img
+                                        src="/images/floorplan1_render.png"
+                                        alt="Render 3D generado"
+                                        className="w-full h-full object-contain"
+                                    />
                                 </div>
-                                <p className="text-center text-gray-400 text-sm">AI Generated 3D View</p>
+                                <p className="text-center text-gray-400 text-sm">Render 3D Generado</p>
                             </div>
                         </div>
                     </div>
@@ -89,16 +95,16 @@ export default function Index() {
             <section className="py-24 bg-accent-50 border-t border-accent-100">
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                        Need custom AI tools for your firm?
+                        ¿Necesitas más que renders de planos?
                     </h2>
                     <p className="text-xl text-gray-700 mb-10 max-w-2xl mx-auto">
-                        This tool is just a demo. We build bespoke AI workflows for architecture and real estate companies—from document automation to custom image generation models.
+                        Desarrollamos soluciones de IA personalizadas: generación de imágenes, automatización de procesos, y herramientas adaptadas a tu negocio.
                     </p>
                     <Link
                         to="/consulting"
                         className="inline-block px-8 py-4 bg-accent-600 text-white font-semibold rounded-lg hover:bg-accent-700 transition-colors shadow-md"
                     >
-                        Book a free consultation
+                        Explorar servicios de IA
                     </Link>
                 </div>
             </section>

@@ -11,10 +11,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
           </Link>
           <nav className="flex items-center gap-6 text-sm font-medium text-gray-600">
             <NavLink to="/app" className={({ isActive }) => isActive ? "text-gray-900" : "hover:text-gray-900 transition-colors"}>
-              Demo
+              Pruébalo
             </NavLink>
             <NavLink to="/consulting" className={({ isActive }) => isActive ? "text-gray-900" : "hover:text-gray-900 transition-colors"}>
-              Consulting
+              Servicios
             </NavLink>
           </nav>
         </div>
@@ -24,10 +24,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </main>
       <footer className="border-t border-gray-100 py-12 bg-gray-50">
         <div className="container mx-auto px-4 text-center text-sm text-gray-500">
-          <p className="mb-4">© {new Date().getFullYear()} Planovivo. Built for architecture & real estate professionals.</p>
+          <p className="mb-4">© {new Date().getFullYear()} Planovivo. Hecho para profesionales de arquitectura e inmobiliaria.</p>
           <div className="flex justify-center gap-6">
-            <Link to="/privacy" className="hover:text-gray-900 transition-colors">Privacy</Link>
-            <Link to="/consulting" className="hover:text-gray-900 transition-colors">Contact</Link>
+            <Link to="/privacy" className="hover:text-gray-900 transition-colors">Privacidad</Link>
+            <Link to="/consulting" className="hover:text-gray-900 transition-colors">Contacto</Link>
           </div>
         </div>
       </footer>

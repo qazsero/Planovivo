@@ -3,17 +3,18 @@ import { Form, useActionData, useNavigation, useSubmit } from "react-router";
 import { UploadArea } from "~/components/UploadArea";
 import { RenderResult } from "~/components/RenderResult";
 import { DownloadGate } from "~/components/DownloadGate";
-import { generateRenderFromFloorplan } from "~/server/vertex";
+import { generateRenderFromFloorplan } from "~/server/vertex.server";
 import type { Route } from "./+types/app";
 
 export const meta: Route.MetaFunction = () => {
-    return [{ title: "Demo - FloorPlan Render AI" }];
+    return [{ title: "Genera tu Render 3D - Planovivo" }];
 };
 
 export async function action({ request }: Route.ActionArgs) {
     const formData = await request.formData();
     const file = formData.get("file") as File;
     const prompt = formData.get("prompt") as string;
+    const submissionId = formData.get("submissionId") as string;
 
     if (!file || file.size === 0) {
         return { error: "No file uploaded" };
@@ -29,7 +30,7 @@ export async function action({ request }: Route.ActionArgs) {
             prompt,
         });
 
-        return { success: true, renderUrl };
+        return { success: true, renderUrl, submissionId };
     } catch (error) {
         console.error("Render error:", error);
         return { error: "Failed to generate render. Please try again." };
@@ -45,6 +46,7 @@ export default function App() {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [stylePrompt, setStylePrompt] = useState("");
     const [isDownloadGateOpen, setIsDownloadGateOpen] = useState(false);
+    const [lastSubmissionId, setLastSubmissionId] = useState<string | null>(null);
 
     const isSubmitting = navigation.state === "submitting";
 
@@ -60,6 +62,12 @@ export default function App() {
         const formData = new FormData();
         formData.append("file", file);
         formData.append("prompt", stylePrompt);
+
+        // Generate unique ID for this submission
+        const submissionId = Date.now().toString();
+        formData.append("submissionId", submissionId);
+        setLastSubmissionId(submissionId);
+
         submit(formData, { method: "post", encType: "multipart/form-data" });
     };
 
@@ -67,6 +75,7 @@ export default function App() {
         setFile(null);
         setPreviewUrl(null);
         setStylePrompt("");
+        setLastSubmissionId(null);
     };
 
     const handleDownloadClick = () => {
@@ -89,21 +98,17 @@ export default function App() {
         <div className="container mx-auto px-4 py-12 max-w-5xl">
             <div className="text-center mb-12">
                 <h1 className="text-3xl font-bold text-gray-900 mb-4">
-                    Floor Plan to 3D Render
+                    Genera tu Render 3D
                 </h1>
                 <p className="text-gray-600 max-w-2xl mx-auto">
-                    Upload your 2D floor plan and let our AI generate a visualization.
-                    <br />
-                    <span className="text-sm text-gray-500">
-                        Experimental demo. Results may vary.
-                    </span>
+                    Sube tu plano 2D y obtén una visualización 3D profesional al instante.
                 </p>
             </div>
 
             <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8">
                 {!file ? (
                     <UploadArea onFileSelect={handleFileSelect} isProcessing={isSubmitting} />
-                ) : !actionData?.renderUrl ? (
+                ) : !actionData?.renderUrl || actionData.submissionId !== lastSubmissionId ? (
                     <div className="max-w-xl mx-auto">
                         <div className="mb-8">
                             <div className="aspect-[4/3] bg-gray-100 rounded-xl overflow-hidden border border-gray-200 relative">
@@ -126,14 +131,14 @@ export default function App() {
                         <div className="space-y-6">
                             <div>
                                 <label htmlFor="style" className="block text-sm font-medium text-gray-700 mb-1">
-                                    Style Preference (Optional)
+                                    Preferencia de Estilo (Opcional)
                                 </label>
                                 <input
                                     type="text"
                                     id="style"
                                     value={stylePrompt}
                                     onChange={(e) => setStylePrompt(e.target.value)}
-                                    placeholder="e.g. Minimalist, Scandinavian, Industrial..."
+                                    placeholder="Ej: Estilo nórdico, iluminación natural, minimalista..."
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 outline-none"
                                 />
                             </div>
@@ -149,7 +154,7 @@ export default function App() {
                                 disabled={isSubmitting}
                                 className="w-full py-3 bg-gray-900 text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors shadow-md disabled:opacity-70"
                             >
-                                {isSubmitting ? "Generating..." : "Generate Visualization"}
+                                {isSubmitting ? "Generando..." : "Generar Visualización"}
                             </button>
                         </div>
                     </div>

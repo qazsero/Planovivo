@@ -36,9 +36,9 @@ export function DownloadGate({ isOpen, onClose, onSuccess }: DownloadGateProps) 
                 </button>
 
                 <div className="text-center mb-6">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">Download High-Res</h3>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">Descarga tu Render</h3>
                     <p className="text-gray-600 text-sm">
-                        This demo is part of our AI consulting practice. Enter your email to download the image and receive a short write-up about how this was built.
+                        Introduce tu email para descargar la imagen en alta resolución.
                     </p>
                 </div>
 
@@ -49,7 +49,7 @@ export function DownloadGate({ isOpen, onClose, onSuccess }: DownloadGateProps) 
 
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                            Work Email
+                            Email
                         </label>
                         <input
                             type="email"
@@ -71,7 +71,7 @@ export function DownloadGate({ isOpen, onClose, onSuccess }: DownloadGateProps) 
                             className="mt-1 rounded border-gray-300 text-accent-600 focus:ring-accent-500"
                         />
                         <label htmlFor="interested_in_ai" className="text-sm text-gray-600">
-                            I'm interested in AI solutions for my company.
+                            Quiero recibir información sobre soluciones de IA.
                         </label>
                     </div>
 
@@ -80,7 +80,7 @@ export function DownloadGate({ isOpen, onClose, onSuccess }: DownloadGateProps) 
                         disabled={isSubmitting}
                         className="w-full py-3 bg-gray-900 text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors shadow-md disabled:opacity-70 disabled:cursor-not-allowed"
                     >
-                        {isSubmitting ? "Processing..." : "Download Image"}
+                        {isSubmitting ? "Procesando..." : "Descargar Imagen"}
                     </button>
                 </fetcher.Form>
             </div>

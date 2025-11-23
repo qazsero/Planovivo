@@ -1,5 +1,5 @@
 import { data, type ActionFunctionArgs } from "react-router";
-import { createMagicLink } from "~/server/auth.server";
+import { createAuthCode } from "~/server/auth.server";
 
 export async function action({ request }: ActionFunctionArgs) {
     const formData = await request.formData();
@@ -10,14 +10,10 @@ export async function action({ request }: ActionFunctionArgs) {
     }
 
     try {
-        const url = new URL(request.url);
-        const domainUrl = `${url.protocol}//${url.host}`;
-
-        await createMagicLink(email, domainUrl);
-
-        return data({ success: true });
+        await createAuthCode(email);
+        return data({ success: true, email }); // Return email to persist state
     } catch (error) {
         console.error("Login error:", error);
-        return data({ error: "Failed to send magic link" }, { status: 500 });
+        return data({ error: "Failed to send code" }, { status: 500 });
     }
 }

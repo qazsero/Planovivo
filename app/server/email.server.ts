@@ -43,21 +43,21 @@ export async function sendEmail({ to, subject, htmlContent }: SendEmailOptions) 
     }
 }
 
-export async function sendMagicLink(email: string, magicLink: string) {
+export async function sendMagicLink(email: string, code: string) {
     return sendEmail({
         to: email,
-        subject: "Tu enlace de acceso a Planovivo",
+        subject: "Tu código de acceso a Planovivo",
         htmlContent: `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-        <h1 style="color: #111827;">Accede a Planovivo</h1>
+        <h1 style="color: #111827;">Código de acceso</h1>
         <p style="color: #4B5563; font-size: 16px;">
-          Haz clic en el siguiente botón para iniciar sesión y generar tus renders 3D:
+          Usa el siguiente código para iniciar sesión en Planovivo:
         </p>
-        <a href="${magicLink}" style="display: inline-block; background-color: #2563EB; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; margin: 16px 0;">
-          Iniciar Sesión
-        </a>
+        <div style="background-color: #F3F4F6; padding: 24px; border-radius: 12px; text-align: center; margin: 24px 0;">
+            <span style="font-size: 32px; font-weight: bold; letter-spacing: 8px; color: #111827;">${code}</span>
+        </div>
         <p style="color: #6B7280; font-size: 14px;">
-          Si no has solicitado este correo, puedes ignorarlo.
+          Este código expirará en 10 minutos. Si no has solicitado este correo, puedes ignorarlo.
         </p>
       </div>
     `,

@@ -12,6 +12,7 @@ export const magicLinks = pgTable("magic_links", {
     email: text("email").notNull(),
     token: text("token").notNull(), // Hashed token
     expiresAt: timestamp("expires_at").notNull(),
+    attempts: integer("attempts").default(0).notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

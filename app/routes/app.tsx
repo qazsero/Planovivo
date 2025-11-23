@@ -83,10 +83,65 @@ export default function App() {
     const [stylePrompt, setStylePrompt] = useState("");
     const [lastSubmissionId, setLastSubmissionId] = useState<string | null>(null);
     const [showAuthModal, setShowAuthModal] = useState(false);
+    const [otp, setOtp] = useState(["", "", "", "", "", ""]);
 
     const isSubmitting = navigation.state === "submitting";
     const isLoggingIn = loginFetcher.state === "submitting";
     const magicLinkSent = loginFetcher.data?.success;
+
+    const verifyFetcher = useFetcher();
+    const isVerifying = verifyFetcher.state === "submitting";
+    const verifyError = verifyFetcher.data?.error;
+
+    // Handle OTP paste
+    const handlePaste = (e: React.ClipboardEvent) => {
+        e.preventDefault();
+        const pastedData = e.clipboardData.getData("text").slice(0, 6).replace(/[^0-9]/g, "");
+        if (pastedData) {
+            const newOtp = [...otp];
+            pastedData.split("").forEach((char, index) => {
+                if (index < 6) newOtp[index] = char;
+            });
+            setOtp(newOtp);
+            // Auto submit if full code pasted
+            if (pastedData.length === 6) {
+                const formData = new FormData();
+                formData.append("email", loginFetcher.data?.email);
+                formData.append("code", pastedData);
+                verifyFetcher.submit(formData, { method: "post", action: "/auth/verify" });
+            }
+        }
+    };
+
+    const handleOtpChange = (index: number, value: string) => {
+        if (value.length > 1) return; // Prevent multiple chars
+        if (!/^\d*$/.test(value)) return; // Only numbers
+
+        const newOtp = [...otp];
+        newOtp[index] = value;
+        setOtp(newOtp);
+
+        // Auto focus next input
+        if (value && index < 5) {
+            const nextInput = document.getElementById(`otp-${index + 1}`);
+            nextInput?.focus();
+        }
+
+        // Auto submit on last digit
+        if (value && index === 5 && newOtp.every(d => d !== "")) {
+            const formData = new FormData();
+            formData.append("email", loginFetcher.data?.email);
+            formData.append("code", newOtp.join(""));
+            verifyFetcher.submit(formData, { method: "post", action: "/auth/verify" });
+        }
+    };
+
+    const handleKeyDown = (index: number, e: React.KeyboardEvent) => {
+        if (e.key === "Backspace" && !otp[index] && index > 0) {
+            const prevInput = document.getElementById(`otp-${index - 1}`);
+            prevInput?.focus();
+        }
+    };
 
     useEffect(() => {
         if (actionData?.requiresAuth) {
@@ -293,17 +348,57 @@ export default function App() {
                         </div>
 
                         {magicLinkSent ? (
-                            <div className="bg-green-50 text-green-800 p-4 rounded-lg text-center">
-                                <p className="font-medium">¡Enlace enviado!</p>
-                                <p className="text-sm mt-1">Revisa tu bandeja de entrada y haz clic en el enlace para acceder.</p>
+                            <div className="space-y-6">
+                                <div className="bg-green-50 text-green-800 p-4 rounded-lg text-center">
+                                    <p className="font-medium">¡Código enviado!</p>
+                                    <p className="text-sm mt-1">Hemos enviado un código de 6 dígitos a <strong>{loginFetcher.data?.email}</strong></p>
+                                </div>
+
+                                <verifyFetcher.Form method="post" action="/auth/verify" className="space-y-4">
+                                    <input type="hidden" name="email" value={loginFetcher.data?.email} />
+                                    <input type="hidden" name="code" value={otp.join("")} />
+
+                                    <div className="flex justify-center gap-2">
+                                        {otp.map((digit, index) => (
+                                            <input
+                                                key={index}
+                                                id={`otp-${index}`}
+                                                type="text"
+                                                inputMode="numeric"
+                                                maxLength={1}
+                                                value={digit}
+                                                onChange={(e) => handleOtpChange(index, e.target.value)}
+                                                onKeyDown={(e) => handleKeyDown(index, e)}
+                                                onPaste={handlePaste}
+                                                className="w-12 h-14 text-center text-2xl font-bold rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                                autoFocus={index === 0}
+                                            />
+                                        ))}
+                                    </div>
+
+                                    {verifyError && (
+                                        <p className="text-red-600 text-sm text-center">{verifyError}</p>
+                                    )}
+
+                                    <button
+                                        type="submit"
+                                        disabled={isVerifying || otp.join("").length !== 6}
+                                        className="w-full py-3 px-6 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors disabled:opacity-50"
+                                    >
+                                        {isVerifying ? "Verificando..." : "Verificar Código"}
+                                    </button>
+                                </verifyFetcher.Form>
+
                                 <button
-                                    onClick={() => revalidator.revalidate()}
-                                    className="mt-4 text-indigo-600 hover:text-indigo-800 text-sm font-medium underline"
+                                    onClick={() => loginFetcher.submit(null, { method: "get" })} // Reset state hack or just reload? Better to just reset state.
+                                    // Actually, we can just use a state setter if we lift state up or use a button to go back
+                                    className="w-full text-center text-sm text-gray-500 hover:text-gray-700"
                                 >
-                                    Ya he verificado mi email
+                                    ¿No recibiste el código? Intentar de nuevo
                                 </button>
                             </div>
                         ) : (
+                            // ... existing login form
                             <loginFetcher.Form
                                 action="/auth/login"
                                 method="post"

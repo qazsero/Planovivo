@@ -1,19 +1,20 @@
-import { redirect, type LoaderFunctionArgs } from "react-router";
-import { verifyMagicLink } from "~/server/auth.server";
+import { data, type ActionFunctionArgs } from "react-router";
+import { verifyAuthCode } from "~/server/auth.server";
 import { createUserSession } from "~/server/session.server";
 
-export async function loader({ request }: LoaderFunctionArgs) {
-    const url = new URL(request.url);
-    const token = url.searchParams.get("token");
+export async function action({ request }: ActionFunctionArgs) {
+    const formData = await request.formData();
+    const email = formData.get("email");
+    const code = formData.get("code");
 
-    if (!token) {
-        return redirect("/?error=missing_token");
+    if (!email || typeof email !== "string" || !code || typeof code !== "string") {
+        return data({ error: "Email y código son requeridos" }, { status: 400 });
     }
 
-    const result = await verifyMagicLink(token);
+    const result = await verifyAuthCode(email, code);
 
     if (result.error || !result.user) {
-        return redirect("/?error=invalid_token");
+        return data({ error: result.error || "Código inválido" }, { status: 400 });
     }
 
     return createUserSession(result.user.id, "/");

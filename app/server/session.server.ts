@@ -26,6 +26,16 @@ export async function createUserSession(userId: string, redirectTo: string) {
     });
 }
 
+export async function createUserSessionJSON(userId: string) {
+    const session = await storage.getSession();
+    session.set("userId", userId);
+    return {
+        headers: {
+            "Set-Cookie": await storage.commitSession(session),
+        },
+    };
+}
+
 export async function getUserSession(request: Request) {
     return storage.getSession(request.headers.get("Cookie"));
 }

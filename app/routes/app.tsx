@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Form, useActionData, useNavigation, useSubmit, useLoaderData, useFetcher, useRevalidator } from "react-router";
 import { UploadArea } from "~/components/UploadArea";
 import { RenderResult } from "~/components/RenderResult";
@@ -149,6 +149,32 @@ export default function App() {
             posthog.capture("auth_wall_shown");
         }
     }, [actionData]);
+
+    const hasAutoSubmitted = useRef(false);
+
+    // Handle successful verification
+    useEffect(() => {
+        if (verifyFetcher.data?.success && !hasAutoSubmitted.current) {
+            setShowAuthModal(false);
+            revalidator.revalidate(); // Update isLoggedIn state
+
+            // Auto-submit generation if we have the file and prompt
+            if (file) {
+                hasAutoSubmitted.current = true; // Mark as submitted
+
+                const formData = new FormData();
+                formData.append("file", file);
+                formData.append("prompt", stylePrompt);
+                if (lastSubmissionId) formData.append("submissionId", lastSubmissionId);
+
+                submit(formData, { method: "post", encType: "multipart/form-data" });
+            }
+        }
+        // Reset ref if verification state is cleared (e.g. modal closed or new attempt)
+        if (!verifyFetcher.data?.success) {
+            hasAutoSubmitted.current = false;
+        }
+    }, [verifyFetcher.data, file, stylePrompt, lastSubmissionId, submit, revalidator]);
 
     useEffect(() => {
         if (isLoggedIn && showAuthModal) {

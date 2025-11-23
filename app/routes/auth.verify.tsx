@@ -1,6 +1,6 @@
 import { data, type ActionFunctionArgs } from "react-router";
 import { verifyAuthCode } from "~/server/auth.server";
-import { createUserSession } from "~/server/session.server";
+import { createUserSessionJSON } from "~/server/session.server";
 
 export async function action({ request }: ActionFunctionArgs) {
     const formData = await request.formData();
@@ -17,5 +17,6 @@ export async function action({ request }: ActionFunctionArgs) {
         return data({ error: result.error || "Código inválido" }, { status: 400 });
     }
 
-    return createUserSession(result.user.id, "/");
+    const session = await createUserSessionJSON(result.user.id);
+    return data({ success: true }, { headers: session.headers });
 }

@@ -2,15 +2,15 @@
 
 **Transform architectural floorplans into stunning 3D isometric renders using AI.**
 
-Planovivo is a modern web application that leverages advanced AI models to interpret 2D architectural floorplans and generate beautiful, high-fidelity 3D miniature maquettes in seconds.
+Planovivo is a modern web application that leverages advanced AI models to interpret 2D architectural floorplans and generate beautiful, high-fidelity 3D miniature maquettes.
 
-![Planovivo Demo](https://via.placeholder.com/800x400?text=Planovivo+Demo+Image)
+![Planovivo Demo](/images/floorplan1_render.png)
 
 ## 🚀 Features
 
 - **🤖 Dual-AI Pipeline:**
-  - **Validation:** Uses **Grok-2-vision** (xAI) to intelligently verify if an uploaded image is a valid architectural floorplan.
-  - **Rendering:** Uses **Google Gemini 2.0 Flash** (Vertex AI) to interpret the layout and generate the final 3D render with accurate doors, windows, and furniture.
+  - **Validation:** Uses **Grok 4.1 Fast** (xAI) to intelligently verify if an uploaded image is a valid architectural floorplan.
+  - **Rendering:** Uses **Gemini 3.0 Pro with Nano Banana** (Vertex AI) to interpret the layout and generate the final 3D render with accurate doors, windows, and furniture.
 - **🔐 Secure Authentication:**
   - Passwordless login via **6-digit OTP** (Magic Code).
   - Rate limiting (max 3 attempts) and automatic expiration (10 min TTL) for enhanced security.
@@ -30,8 +30,8 @@ Planovivo is a modern web application that leverages advanced AI models to inter
 - **Backend:** Node.js, React Router Server Actions
 - **Database:** PostgreSQL, Drizzle ORM
 - **AI Services:**
-  - xAI API (Grok-2-vision-1212)
-  - Google Vertex AI (Gemini 2.0 Flash)
+  - xAI API (Grok 4.1 Fast)
+  - Google Vertex AI (Gemini 3.0 Pro with Nano Banana)
 - **Infrastructure:** Docker, Brevo (Email), PostHog (Analytics)
 
 ## 🏁 Getting Started
@@ -102,4 +102,4 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-Built with ❤️ by [Enjinia Tech](https://enjinia.com)
+Built with ❤️ by [Enjinia Tech](https://enjinia.es)

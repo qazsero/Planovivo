@@ -4,13 +4,13 @@
 
 Planovivo is a modern web application that leverages advanced AI models to interpret 2D architectural floorplans and generate beautiful, high-fidelity 3D miniature maquettes.
 
-![Planovivo Demo](/images/floorplan1_render.png)
+![Planovivo Demo](public/images/floorplan1_render.png)
 
 ## 🚀 Features
 
 - **🤖 Dual-AI Pipeline:**
   - **Validation:** Uses **Grok 4.1 Fast** (xAI) to intelligently verify if an uploaded image is a valid architectural floorplan.
-  - **Rendering:** Uses **Gemini 3.0 Pro with Nano Banana** (Vertex AI) to interpret the layout and generate the final 3D render with accurate doors, windows, and furniture.
+  - **Rendering:** Uses **Gemini 3.0 Pro with Nano Banana Pro** (Vertex AI) to interpret the layout and generate the final 3D render with accurate doors, windows, and furniture.
 - **🔐 Secure Authentication:**
   - Passwordless login via **6-digit OTP** (Magic Code).
   - Rate limiting (max 3 attempts) and automatic expiration (10 min TTL) for enhanced security.

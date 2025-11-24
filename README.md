@@ -1,87 +1,105 @@
-# Welcome to React Router!
+# Planovivo 🏠✨
 
-A modern, production-ready template for building full-stack React applications using React Router.
+**Transform architectural floorplans into stunning 3D isometric renders using AI.**
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+Planovivo is a modern web application that leverages advanced AI models to interpret 2D architectural floorplans and generate beautiful, high-fidelity 3D miniature maquettes in seconds.
 
-## Features
+![Planovivo Demo](https://via.placeholder.com/800x400?text=Planovivo+Demo+Image)
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+## 🚀 Features
 
-## Getting Started
+- **🤖 Dual-AI Pipeline:**
+  - **Validation:** Uses **Grok-2-vision** (xAI) to intelligently verify if an uploaded image is a valid architectural floorplan.
+  - **Rendering:** Uses **Google Gemini 2.0 Flash** (Vertex AI) to interpret the layout and generate the final 3D render with accurate doors, windows, and furniture.
+- **🔐 Secure Authentication:**
+  - Passwordless login via **6-digit OTP** (Magic Code).
+  - Rate limiting (max 3 attempts) and automatic expiration (10 min TTL) for enhanced security.
+  - Persistent sessions (30 days) via secure HTTP-only cookies.
+- **📊 Analytics & Growth:**
+  - Full user journey tracking with **PostHog**.
+  - Automated lead capture and marketing list integration with **Brevo**.
+- **⚡ Modern Tech Stack:**
+  - Built with **React Router v7** for blazing fast SSR and seamless routing.
+  - Fully typed with **TypeScript**.
+  - Styled with **TailwindCSS**.
+  - Data managed with **PostgreSQL** and **Drizzle ORM**.
+
+## 🛠️ Tech Stack
+
+- **Frontend:** React Router v7, React 19, TailwindCSS
+- **Backend:** Node.js, React Router Server Actions
+- **Database:** PostgreSQL, Drizzle ORM
+- **AI Services:**
+  - xAI API (Grok-2-vision-1212)
+  - Google Vertex AI (Gemini 2.0 Flash)
+- **Infrastructure:** Docker, Brevo (Email), PostHog (Analytics)
+
+## 🏁 Getting Started
+
+### Prerequisites
+
+- Node.js (v20+)
+- PostgreSQL database
+- API Keys for:
+  - xAI (Grok)
+  - Google Cloud (Vertex AI)
+  - Brevo
+  - PostHog
 
 ### Installation
 
-Install the dependencies:
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/qazsero/planovivo.git
+   cd planovivo
+   ```
 
-```bash
-npm install
-```
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-### Development
+3. **Configure Environment Variables:**
+   Copy the example file and fill in your credentials:
+   ```bash
+   cp .env.example .env
+   ```
+   *Make sure to set `DATABASE_URL`, `XAI_API_KEY`, `GOOGLE_VERTEX_PROJECT`, etc.*
 
-Start the development server with HMR:
+4. **Setup Database:**
+   Push the schema to your PostgreSQL instance:
+   ```bash
+   npx drizzle-kit push
+   ```
 
-```bash
-npm run dev
-```
+5. **Run Development Server:**
+   ```bash
+   npm run dev
+   ```
+   The app will be available at `http://localhost:5173`.
 
-Your application will be available at `http://localhost:5173`.
+## 📦 Build for Production
 
-## Building for Production
-
-Create a production build:
+To create a production build:
 
 ```bash
 npm run build
 ```
 
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
+To start the production server:
 
 ```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
+npm run start
 ```
 
-The containerized application can be deployed to any platform that supports Docker, including:
+## 🤝 Contributing
 
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-### DIY Deployment
+## 📄 License
 
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-Built with ❤️ using React Router.
+Built with ❤️ by [Enjinia Tech](https://enjinia.com)
